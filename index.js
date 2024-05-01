@@ -1,6 +1,6 @@
 import express from "express";
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 3000;
 
 // Health check route
 app.get("/health", (req, res) => {
