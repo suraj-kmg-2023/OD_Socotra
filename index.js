@@ -52,12 +52,40 @@ app.get("/getPolicyDetails/:policy_number", async (req, res) => {
   const parse_json_policy = JSON.parse(string_json_policy);
 
   const premium = parse_json_policy.characteristics[0].grossPremium;
+  const insured_name = parse_json_policy.characteristics[0].fieldValues.insuredName[0];
+  const policy_start = parse_json_policy.originalContractStartTimestamp;
+  const policy_end = parse_json_policy.originalContractEndTimestamp;
+
+  var originalContractStartTimestamp = new Date(parseInt(policy_start));
+  var originalContractEndTimestamp = new Date(parseInt(policy_end));
+
+  // Step 2: Format the Date object into MM-DD-YYYY format
+  var formattedDateString_policyStart =
+    (originalContractStartTimestamp.getMonth() + 1)
+      .toString()
+      .padStart(2, "0") +
+    "-" +
+    originalContractStartTimestamp.getDate().toString().padStart(2, "0") +
+    "-" +
+    originalContractStartTimestamp.getFullYear();
+
+  var formattedDateString_policyEnd =
+    (originalContractEndTimestamp.getMonth() + 1)
+      .toString()
+      .padStart(2, "0") +
+    "-" +
+    originalContractEndTimestamp.getDate().toString().padStart(2, "0") +
+    "-" +
+    originalContractEndTimestamp.getFullYear();
 
   res.status(200).json({
     successful: true,
     output_data: {
       attributes: {
         premium: premium,
+        insured_name: insured_name,
+        policy_start: formattedDateString_policyStart,
+        policy_end: formattedDateString_policyEnd
       },
     },
   });
