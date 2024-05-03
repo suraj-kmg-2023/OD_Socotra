@@ -78,6 +78,9 @@ app.get("/getPolicyDetails/:policy_number", async (req, res) => {
     "-" +
     originalContractEndTimestamp.getFullYear();
 
+  const quote_proposal_doc = parse_json_policy.documents[0].url;
+  const new_business_doc = parse_json_policy.documents[1].url;
+
   res.status(200).json({
     successful: true,
     output_data: {
@@ -85,7 +88,9 @@ app.get("/getPolicyDetails/:policy_number", async (req, res) => {
         premium: premium,
         insured_name: insured_name,
         policy_start: formattedDateString_policyStart,
-        policy_end: formattedDateString_policyEnd
+        policy_end: formattedDateString_policyEnd,
+        quote_proposal_doc: quote_proposal_doc,
+        new_business_doc: new_business_doc
       },
     },
   });
